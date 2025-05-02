@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using supportclient.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Newtonsoft.Json;
-using supportclient.Models;
+using System.Xml;
 
 namespace supportclient
 {
@@ -15,10 +16,16 @@ namespace supportclient
         private List<ProductDTO> allProducts;
         private SuggestionService suggestionSvc = new SuggestionService();
         private DnnAdminService adminService;
+        private SqlRelationshipWriter sqlWriter;
 
         public Form1()
         {
             InitializeComponent();
+
+            string connectionString = "Server=rendfejl1011;Initial Catalog=SajatDNN;Integrated Security=True;";
+
+
+            sqlWriter = new SqlRelationshipWriter(connectionString);
         }
 
         private async void buttonRun_Click(object sender, EventArgs e)
@@ -66,6 +73,15 @@ namespace supportclient
             await adminService.SaveRelatedAsync(selectedProduct.Id, relatedIds);
 
             MessageBox.Show("Kapcsolódó termékek sikeresen elmentve.");
+
+            // 1. SQL kapcsolat létrehozása (ide jön majd a connection stringed)
+            string connectionString = "Server=rendfejl1011\\SajatDNN;Initial Catalog=SajatDNN;Integrated Security=True;";
+
+            var sqlWriter = new SqlRelationshipWriter(connectionString);
+
+            // 2. ProductId és RelatedIds átadása
+            sqlWriter.SaveRelationships(selectedProduct.Id.ToString(), relatedIds.Select(id => id.ToString()).ToList());
+
         }
 
         private void dataGridViewProducts_SelectionChanged(object sender, EventArgs e)
@@ -77,6 +93,30 @@ namespace supportclient
             var relatedProducts = suggestionSvc.GetRelatedProducts(selectedProduct, allProducts);
 
             dataGridViewRelated.DataSource = relatedProducts;
+
+
+
+        }
+
+        private async void buttonGenerateAllRelated_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                foreach (var product in allProducts)
+                {
+                    var relatedProducts = suggestionSvc.GetRelatedProducts(product, allProducts);
+                    var relatedIds = relatedProducts.Select(p => p.Id).ToList();
+
+                    await adminService.SaveRelatedAsync(product.Id, relatedIds);
+                    sqlWriter.SaveRelationships(product.Id, relatedIds);
+                }
+
+                MessageBox.Show("Minden termékhez elmentve az ajánlott kapcsolódó termékek.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiba a mentés során: " + ex.Message);
+            }
         }
     }
 }

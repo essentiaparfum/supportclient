@@ -26,11 +26,12 @@ namespace supportclient
                 foreach (var relatedId in relatedProductIds)
                 {
                     var cmd = new SqlCommand(@"
-                        INSERT INTO ProductRelationships 
-                        (ProductId, RelatedProductId, IsSubstitute, SortOrder, MarketingDescription, StoreId)
-                        VALUES 
-                        (@ProductId, @RelatedProductId, 0, 1, NULL, 1);
-                    ", conn);
+                    INSERT INTO dbo.hcc_ProductRelationships
+                    (ProductId, RelatedProductId, IsSubstitute, SortOrder, MarketingDescription, StoreId)
+                    VALUES
+                    (@ProductId, @RelatedProductId, 0, 1, '', 1);", conn);
+
+
 
                     cmd.Parameters.AddWithValue("@ProductId", productId);
                     cmd.Parameters.AddWithValue("@RelatedProductId", relatedId);

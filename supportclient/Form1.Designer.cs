@@ -32,6 +32,7 @@
             dataGridViewProducts = new DataGridView();
             buttonSaveRelated = new Button();
             dataGridViewRelated = new DataGridView();
+            buttonGenerateAllRelated = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProducts).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewRelated).BeginInit();
             SuspendLayout();
@@ -73,11 +74,22 @@
             dataGridViewRelated.Size = new Size(467, 481);
             dataGridViewRelated.TabIndex = 3;
             // 
+            // buttonGenerateAllRelated
+            // 
+            buttonGenerateAllRelated.Location = new Point(464, 674);
+            buttonGenerateAllRelated.Name = "buttonGenerateAllRelated";
+            buttonGenerateAllRelated.Size = new Size(109, 54);
+            buttonGenerateAllRelated.TabIndex = 4;
+            buttonGenerateAllRelated.Text = "Összes mentése";
+            buttonGenerateAllRelated.UseVisualStyleBackColor = true;
+            buttonGenerateAllRelated.Click += buttonGenerateAllRelated_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1455, 763);
+            Controls.Add(buttonGenerateAllRelated);
             Controls.Add(dataGridViewRelated);
             Controls.Add(buttonSaveRelated);
             Controls.Add(dataGridViewProducts);
@@ -95,5 +107,6 @@
         private DataGridView dataGridViewProducts;
         private Button buttonSaveRelated;
         private DataGridView dataGridViewRelated;
+        private Button buttonGenerateAllRelated;
     }
 }
