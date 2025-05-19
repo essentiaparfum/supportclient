@@ -49,6 +49,20 @@ namespace supportclient
                 }
 
                 dataGridViewProducts.DataSource = allProducts;
+
+                dataGridViewProducts.Columns["ListPrice"].Visible = false;
+                dataGridViewProducts.Columns["ImageUrl"].Visible = false;
+                dataGridViewProducts.Columns["IsAvailableForSale"].Visible = false;
+                dataGridViewProducts.Columns["UrlSlug"].Visible = false;
+
+                dataGridViewProducts.Columns["Name"].DisplayIndex = 0;
+                dataGridViewProducts.Columns["Name"].Width = 200;
+                dataGridViewProducts.Columns["Sku"].Width = 200;
+                dataGridViewProducts.Columns["SitePrice"].Width = 200;
+                dataGridViewProducts.Columns["Id"].Width = 200;
+
+
+
                 MessageBox.Show("Termékek lekérdezve.");
             }
             catch (Exception ex)
@@ -93,6 +107,10 @@ namespace supportclient
             var relatedProducts = suggestionSvc.GetRelatedProducts(selectedProduct, allProducts);
 
             dataGridViewRelated.DataSource = relatedProducts;
+            dataGridViewRelated.Columns["Name"].DisplayIndex = 0;
+
+
+
 
 
 
@@ -117,6 +135,43 @@ namespace supportclient
             {
                 MessageBox.Show("Hiba a mentés során: " + ex.Message);
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (allProducts == null)
+                return;
+
+            string filter = textBoxSearch.Text.Trim().ToLower();
+
+            var filtered = allProducts
+                .Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(filter))
+                .ToList();
+
+            dataGridViewProducts.DataSource = null;
+            dataGridViewProducts.DataSource = filtered;
+
+            // Oszlopok elrejtése újra
+            if (filtered.Count > 0)
+            {
+                dataGridViewProducts.Columns["ListPrice"].Visible = false;
+                dataGridViewProducts.Columns["ImageUrl"].Visible = false;
+                dataGridViewProducts.Columns["IsAvailableForSale"].Visible = false;
+                dataGridViewProducts.Columns["UrlSlug"].Visible = false;
+
+                dataGridViewProducts.Columns["Name"].DisplayIndex = 0;
+                dataGridViewProducts.Columns["Name"].Width = 200;
+                dataGridViewProducts.Columns["Sku"].Width = 200;
+                dataGridViewProducts.Columns["SitePrice"].Width = 200;
+                dataGridViewProducts.Columns["Id"].Width = 200;
+            }
+
+
         }
     }
 }
