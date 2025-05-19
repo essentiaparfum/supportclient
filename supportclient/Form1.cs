@@ -60,6 +60,7 @@ namespace supportclient
                 dataGridViewProducts.Columns["Sku"].Width = 200;
                 dataGridViewProducts.Columns["SitePrice"].Width = 200;
                 dataGridViewProducts.Columns["Id"].Width = 200;
+                dataGridViewProducts.Columns["SitePrice"].DefaultCellStyle.Format = "N0";
 
 
 
@@ -108,10 +109,11 @@ namespace supportclient
 
             dataGridViewRelated.DataSource = relatedProducts;
             dataGridViewRelated.Columns["Name"].DisplayIndex = 0;
-
-
-
-
+            dataGridViewRelated.Columns["ListPrice"].Visible = false;
+            dataGridViewRelated.Columns["ImageUrl"].Visible = false;
+            dataGridViewRelated.Columns["IsAvailableForSale"].Visible = false;
+            dataGridViewRelated.Columns["UrlSlug"].Visible = false;
+            dataGridViewRelated.Columns["SitePrice"].DefaultCellStyle.Format = "N0";
 
 
         }
@@ -169,6 +171,8 @@ namespace supportclient
                 dataGridViewProducts.Columns["Sku"].Width = 200;
                 dataGridViewProducts.Columns["SitePrice"].Width = 200;
                 dataGridViewProducts.Columns["Id"].Width = 200;
+                dataGridViewProducts.Columns["SitePrice"].DefaultCellStyle.Format = "N0";
+
             }
 
 
