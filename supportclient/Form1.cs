@@ -141,7 +141,8 @@ namespace supportclient
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            dataGridViewProducts.EnableHeadersVisualStyles = false;
+            dataGridViewRelated.EnableHeadersVisualStyles = false;
         }
 
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
